@@ -4,6 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 # DEPENDENCIAS
 npm install @swimlane/ngx-graph @angular/cdk d3 dagre -S
+npm install @types/d3-shape @types/d3-dispatch @types/d3-drag @types/d3-timer @types/dagre -D
 
 ## Development server
 
