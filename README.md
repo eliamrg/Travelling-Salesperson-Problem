@@ -2,6 +2,11 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.5.
 
+# DEPENDENCIAS
+`npm install @swimlane/ngx-graph @angular/cdk d3 dagre -S`
+
+`npm install @types/d3-shape @types/d3-dispatch @types/d3-drag @types/d3-timer @types/dagre -D`
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
