@@ -1,19 +1,63 @@
 
 <div class="row">
-  <div class="column"><br>AQUI PUEDE IR LO QUE MUEVE EL USER</div>
-  <div class="column"> <br>AQUI PUEDE IR EL DIAGRAMA</div>
+  
 </div>
 <div class="flex-container">
+  
   <div class="left-column">
-    <br><br>
-    TABLA
-    <br>
-    BOTON CALCULAR
-    <br>
-    <br><br>
-    <br><br>
-    <br>
-    LA SOL OPTIMA ES...
+    
+    <table>
+      <tr>
+        <th> </th>
+        <th>A</th>
+        <th>B</th>
+        <th>C</th>
+        <th>D</th>
+        <th>E</th>
+      </tr>
+      <tr>
+        <td>A</td>
+        <td>-</td>
+        <td contenteditable='true'>2</td>
+        <td contenteditable='true'>3</td>
+        <td contenteditable='true'>4</td>
+        <td contenteditable='true'>5</td>
+      </tr>
+      <tr>
+        <td>B</td>
+        <td contenteditable='true'>5</td>
+        <td>-</td>
+        <td contenteditable='true'>3</td>
+        <td contenteditable='true'>2</td>
+        <td contenteditable='true'>1</td>
+      </tr>
+      <tr>
+        <td>C</td>
+        <td contenteditable='true'>6</td>
+        <td contenteditable='true'>7</td>
+        <td >-</td>
+        <td contenteditable='true'>9</td>
+        <td contenteditable='true'>0</td>
+      </tr>
+      <tr>
+        <td contenteditable='true'>D</td>
+        <td contenteditable='true'>1</td>
+        <td contenteditable='true'>1</td>
+        <td contenteditable='true'>1</td>
+        <td>-</td>
+        <td contenteditable='true'>1</td>
+      </tr>
+      <tr>
+        <td>E</td>
+        <td contenteditable='true'>1</td>
+        <td contenteditable='true'>1</td>
+        <td contenteditable='true'>1</td>
+        <td contenteditable='true'>2</td>
+        <td>-</td>
+      </tr>
+    </table>
+    
+   
   </div>
   <div class="right-column">
     <ngx-graph
@@ -108,5 +152,33 @@
     </ngx-graph>
   </div>
 </div>
+<footer class="ui-footer ui-bottom-button">
+  <div class="row">
+  
+  </div>
+  <div class="flex-container">
+    <div class="left-column">
+      
 
+      <div class="container"><button class="button">Calcular Solucion</button></div>
+      
+    </div>
+    <div class="right-column">
+      
+      <div class="container">
+        <div class="row">
+        </div>
+        <div class="flex-container">
+          <div class="left-column">
+            Solución:
+            
+          </div>
+          <div class="right-column">
+            Costo:
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
 <!--<router-outlet></router-outlet>-->
