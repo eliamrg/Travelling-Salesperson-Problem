@@ -1,67 +1,29 @@
+
 <div class="row">
-  
+    
 </div>
 <div class="flex-container">
   
   <div class="left-column">
     
     <table>
-      <tr>
-        <th> </th>
-        <th>A</th>
-        <th>B</th>
-        <th>C</th>
-        <th>D</th>
-        <th>E</th>
+      <tr >
+        <th *ngFor="let nodo of Nodos">{{nodo}}</th>
       </tr>
-      <tr>
-        <td>A</td>
-        <td>-</td>
-        <td contenteditable='true'>2</td>
-        <td contenteditable='true'>3</td>
-        <td contenteditable='true'>4</td>
-        <td contenteditable='true'>5</td>
+      <tr *ngFor="let distancia of Distancias">
+        <td contenteditable='true' *ngFor="let cantidad of distancia">{{cantidad}}</td>
       </tr>
-      <tr>
-        <td>B</td>
-        <td contenteditable='true'>5</td>
-        <td>-</td>
-        <td contenteditable='true'>3</td>
-        <td contenteditable='true'>2</td>
-        <td contenteditable='true'>1</td>
-      </tr>
-      <tr>
-        <td>C</td>
-        <td contenteditable='true'>6</td>
-        <td contenteditable='true'>7</td>
-        <td >-</td>
-        <td contenteditable='true'>9</td>
-        <td contenteditable='true'>0</td>
-      </tr>
-      <tr>
-        <td contenteditable='true'>D</td>
-        <td contenteditable='true'>1</td>
-        <td contenteditable='true'>1</td>
-        <td contenteditable='true'>1</td>
-        <td>-</td>
-        <td contenteditable='true'>1</td>
-      </tr>
-      <tr>
-        <td>E</td>
-        <td contenteditable='true'>1</td>
-        <td contenteditable='true'>1</td>
-        <td contenteditable='true'>1</td>
-        <td contenteditable='true'>2</td>
-        <td>-</td>
-      </tr>
+      
     </table>
+    
     
    
   </div>
   <div class="right-column">
+    
     <ngx-graph
       class="chart-container"
-      [view]="[500, 550]"
+      [view]="[600, 400]"
       [links]="leerLinks()"
       [nodes]="leerNodos()"
       
@@ -69,7 +31,7 @@
     >
     <!--TEMPLATE PARA LAS FLECHAS-->
       <ng-template #defsTemplate>
-        <svg:marker id="arrow" fill="black" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="4" markerHeight="4" orient="auto">
+        <svg:marker id="arrow" fill="white" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="4" markerHeight="4" orient="auto">
           <svg:path d="M0,-5L10,0L0,5" class="arrow-head" />
         </svg:marker>
       </ng-template>
@@ -105,6 +67,9 @@
       </ng-template>
     </ngx-graph>
   </div>
+</div>
+<div>
+    <div class="container"><button class="button" (click)="agregarNodo()">{{nuevoNodoMensaje}}</button></div>
 </div>
 <footer class="ui-footer ui-bottom-button">
   <div class="row">
