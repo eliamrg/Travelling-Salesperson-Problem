@@ -1,0 +1,137 @@
+<div class="row">
+  
+</div>
+<div class="flex-container">
+  
+  <div class="left-column">
+    
+    <table>
+      <tr>
+        <th> </th>
+        <th>A</th>
+        <th>B</th>
+        <th>C</th>
+        <th>D</th>
+        <th>E</th>
+      </tr>
+      <tr>
+        <td>A</td>
+        <td>-</td>
+        <td contenteditable='true'>2</td>
+        <td contenteditable='true'>3</td>
+        <td contenteditable='true'>4</td>
+        <td contenteditable='true'>5</td>
+      </tr>
+      <tr>
+        <td>B</td>
+        <td contenteditable='true'>5</td>
+        <td>-</td>
+        <td contenteditable='true'>3</td>
+        <td contenteditable='true'>2</td>
+        <td contenteditable='true'>1</td>
+      </tr>
+      <tr>
+        <td>C</td>
+        <td contenteditable='true'>6</td>
+        <td contenteditable='true'>7</td>
+        <td >-</td>
+        <td contenteditable='true'>9</td>
+        <td contenteditable='true'>0</td>
+      </tr>
+      <tr>
+        <td contenteditable='true'>D</td>
+        <td contenteditable='true'>1</td>
+        <td contenteditable='true'>1</td>
+        <td contenteditable='true'>1</td>
+        <td>-</td>
+        <td contenteditable='true'>1</td>
+      </tr>
+      <tr>
+        <td>E</td>
+        <td contenteditable='true'>1</td>
+        <td contenteditable='true'>1</td>
+        <td contenteditable='true'>1</td>
+        <td contenteditable='true'>2</td>
+        <td>-</td>
+      </tr>
+    </table>
+    
+   
+  </div>
+  <div class="right-column">
+    <ngx-graph
+      class="chart-container"
+      [view]="[500, 550]"
+      [links]="leerLinks()"
+      [nodes]="leerNodos()"
+      
+      layout="dagreCluster"
+    >
+    <!--TEMPLATE PARA LAS FLECHAS-->
+      <ng-template #defsTemplate>
+        <svg:marker id="arrow" fill="black" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="4" markerHeight="4" orient="auto">
+          <svg:path d="M0,-5L10,0L0,5" class="arrow-head" />
+        </svg:marker>
+      </ng-template>
+      
+    <!--TEMPLATE PARA NODOS-->
+      <ng-template #nodeTemplate let-node>
+        <svg:g class="node">
+          <svg:rect
+            [attr.width]="node.dimension.width"
+            [attr.height]="node.dimension.height"
+            [attr.fill]="node.data.color"
+          />
+          <svg:text alignment-baseline="central" [attr.x]="10" [attr.y]="node.dimension.height / 2">
+            {{node.label}}
+          </svg:text>
+        </svg:g>
+      </ng-template>
+    <!--TEMPLATE PARA LAS LINEAS-->
+      <ng-template #linkTemplate let-link>
+        <svg:g class="edge">
+          <svg:path class="line" stroke-width="2" marker-end="url(#arrow)"></svg:path>
+          <svg:text class="edge-label" text-anchor="middle">
+            <textPath
+              class="text-path"
+              [attr.href]="'#' + link.id"
+              [style.dominant-baseline]="link.dominantBaseline"
+              startOffset="50%"
+            >
+              {{link.label}}
+            </textPath>
+          </svg:text>
+        </svg:g>
+      </ng-template>
+    </ngx-graph>
+  </div>
+</div>
+<footer class="ui-footer ui-bottom-button">
+  <div class="row">
+  
+  </div>
+  <div class="flex-container">
+    <div class="left-column">
+      
+
+      <div class="container"><button class="button">Calcular Solucion</button></div>
+      
+    </div>
+    <div class="right-column">
+      
+      <div class="container">
+        <div class="row">
+        </div>
+        <div class="flex-container">
+          <div class="left-column">
+            Solución:
+            
+          </div>
+          <div class="right-column">
+            Costo:
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

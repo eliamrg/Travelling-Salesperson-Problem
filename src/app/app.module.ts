@@ -6,10 +6,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { InterfazComponent } from './interfaz/interfaz.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    InterfazComponent
   ],
   imports: [
     BrowserModule,
