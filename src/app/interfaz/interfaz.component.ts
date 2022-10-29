@@ -10,6 +10,7 @@ export class InterfazComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.GenerarDiagrama();
   }
   
   nuevoNodoMensaje="Agregar Nodo";
@@ -44,13 +45,13 @@ export class InterfazComponent implements OnInit {
     {
       id: 'A',
       label: 'A'
-    }, {
+    },/* {
       id: 'B',
       label: 'B'
     }, {
       id: 'C',
       label: 'C'
-    }
+    }*/
   ];
   leerLinks() {
     //let data = [this.multiple.find((e) => e.name == name)];
@@ -80,8 +81,32 @@ export class InterfazComponent implements OnInit {
           }
         }
       }catch(error){}
+      
       console.log(this.Distancias);
-    }else{this.nuevoNodoMensaje="Numero Máximo de Nodos Alcanzados"}
-   
+      console.log(this.Nodos);
+    }else{this.nuevoNodoMensaje="Numero Máximo de Nodos Alcanzados (10)"}
+   this.GenerarDiagrama();
+  }
+
+  GenerarDiagrama(){
+    for(let i=2;i<this.Nodos.length;i++){
+      this.nodes.push({
+        id: this.Nodos[i],
+        label: this.Nodos[i]
+      })
+      
+    }
+
+    //modificar esto
+    for(let i=2;i<this.Nodos.length;i++){
+      this.links.push({
+        id: this.Nodos[i]+'C',
+        source: this.Nodos[i],
+        target: 'C',
+        label: '145'
+      })
+    }
+    console.log("DIAGRAMA")
+    
   }
 }
