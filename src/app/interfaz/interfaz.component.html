@@ -10,7 +10,7 @@
       <tr >
         <th *ngFor="let nodo of Nodos">{{nodo}}</th>
       </tr>
-      <tr *ngFor="let distancia of Distancias">
+      <tr *ngFor="let distancia of TablaDistancias">
         <td contenteditable='true' *ngFor="let cantidad of distancia">{{cantidad}}</td>
       </tr>
       
@@ -79,7 +79,7 @@
     <div class="left-column">
       
 
-      <div class="container"><button class="button">Calcular Solucion</button></div>
+      <div class="container"><button (click)="vecinoMasCercano()" class="button">Calcular Solucion</button></div>
       
     </div>
     <div class="right-column">
@@ -89,11 +89,11 @@
         </div>
         <div class="flex-container">
           <div class="left-column">
-            Solución:
+            Solución: {{nodosVisitados}}
             
           </div>
           <div class="right-column">
-            Costo:
+            Costo: {{distanciaRecorrida}}
           </div>
         </div>
       </div>
