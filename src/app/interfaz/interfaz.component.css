@@ -16,7 +16,7 @@
   }
   
   th, td {
-    padding: 15px;
+    padding: 10px;
   }
   .button {
     width: 50%;
@@ -89,4 +89,10 @@
     content: "";
     display: table;
     clear: both;
+  }
+  input{
+    border-color: white;
+    border-width:0px;
+border:none;
+width: 100%;
   }

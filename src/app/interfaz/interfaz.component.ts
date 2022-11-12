@@ -1,4 +1,4 @@
-import { Component, OnInit, ResolvedReflectiveFactory } from '@angular/core';
+import { Component, Input, OnInit, ResolvedReflectiveFactory } from '@angular/core';
 
 @Component({
   selector: 'app-interfaz',
@@ -12,14 +12,14 @@ export class InterfazComponent implements OnInit {
   ngOnInit(): void {
     this.GenerarDiagrama();
   }
-  nodosVisitados:string[]=["A"] ;
+  nodosVisitados:string="" ;
   distanciaRecorrida=0;
   nuevoNodoMensaje="Agregar Nodo";
   Nodos:string[] = ["","A","B","C"] ;
   TablaDistancias :string[][] = [
-    [this.Nodos[1],"0","2","3"],
-    [this.Nodos[2],"2","0","25"],
-    [this.Nodos[3],"3","25","0"]
+    [this.Nodos[1],"0","1","1"],
+    [this.Nodos[2],"1","0","1"],
+    [this.Nodos[3],"1","1","0"]
   ];
 
   links=[
@@ -27,8 +27,8 @@ export class InterfazComponent implements OnInit {
       id: 'AB',
       source: 'A',
       target: 'B',
-      label: '2'
-    },
+      label: this.TablaDistancias[0][2]
+    }/*,
     {
       id: 'AC',
       source: 'A',
@@ -40,7 +40,13 @@ export class InterfazComponent implements OnInit {
       source: 'B',
       target: 'C',
       label: '25'
-    }
+    },
+    {
+      id: 'BA',
+      source: 'B',
+      target: 'A',
+      label: '2'
+    }*/
   ];
   nodes=[
     {
@@ -79,6 +85,7 @@ export class InterfazComponent implements OnInit {
     grafo=this.SimplificarArreglo();
     let V =grafo.length;
     console.log(grafo)
+    this.GenerarDiagrama();
  
         for (let i = 0; i < V; i++)
             if (i != origen)
@@ -96,10 +103,10 @@ export class InterfazComponent implements OnInit {
             let costoRutaActual = 0;
             let rutaActual = "A";
             let k = origen;
-            console.log("Ruta: "+ruta)
+            //console.log("Ruta: "+ruta)
             // calcular el costo de la ruta actual
             for (let i = 0; i < vertice.length; i++) {
-              console.log("Avanzar a nodo "+(vertice[i]+1)+ " Costo= "+grafo[k][vertice[i]])
+              //console.log("Avanzar a nodo "+(vertice[i]+1)+ " Costo= "+grafo[k][vertice[i]])
               //console.log("graph[" +(k+1)+"][vertex["+(i+1)+"]] =" +graph[k][vertex[i]])
               rutaActual+="-"+String.fromCharCode(64+(vertice[i]+1));  
               costoRutaActual += Number(grafo[k][vertice[i]]);
@@ -108,6 +115,8 @@ export class InterfazComponent implements OnInit {
             
             costoRutaActual += Number(grafo[k][origen]);
             rutaActual+="-A";
+
+            console.log("Ruta "+ruta+": "+rutaActual+" Costo: "+costoRutaActual);
             if(costoRutaActual== Math.min(distanciaMinima, costoRutaActual)){
               rutaMinima=rutaActual;
             }
@@ -121,6 +130,9 @@ export class InterfazComponent implements OnInit {
         //regresa el costo minimo;
         console.log ("Costo mínimo: "+distanciaMinima);
         console.log(rutaMinima)
+        this.distanciaRecorrida=distanciaMinima;
+        this.nodosVisitados=rutaMinima;
+        
   }
   findNextPermutation(datos: Array<number>)
   {
@@ -141,47 +153,47 @@ export class InterfazComponent implements OnInit {
         // Si no hay par creciente no hay permutación de mayor orden
         if (last < 0)
             return false;
-        let nextGreater = datos.length - 1;
+        let siguienteMayor = datos.length - 1;
  
         // Encontrar el sucesor más a la derecha del pivote
         for (let i = datos.length - 1; i > last; i--) {
             if (datos[i] >  datos[last]) {
-                nextGreater = i;
+                siguienteMayor = i;
                 break;
             }
         }
  
         
         // Intercambiar el sucesor y el pivote
-        datos = this.swap(datos, nextGreater, last);
+        datos = this.intercambiar(datos, siguienteMayor, last);
  
         //Invertir el sufijo
 
-        datos = this.reverse(datos, last + 1, datos.length - 1);
+        datos = this.reversa(datos, last + 1, datos.length - 1);
  
         // Devuelve verdadero cuando se realiza la siguiente permutación
         return true;
     }
     
-    swap(datos: Array<number> , left: number, right: number)
+    intercambiar(datos: Array<number> , izquierda: number, derecha: number)
     {
     // intercambiar los datos
-    let temp = datos[left];
-    datos[left] = datos[right];
-    datos[right] = temp;
+    let temp = datos[izquierda];
+    datos[izquierda] = datos[derecha];
+    datos[derecha] = temp;
 
     // Devolver la matriz actualizada
     return datos;
     }
 
     //Función para invertir el subarreglo comenzando de izquierda a derecha 
-    reverse(datos: Array<number>, left: number, right: number)
+    reversa(datos: Array<number>, izquierda: number, derecha: number)
     {
     // Inversion del sub arreglo
-    while (left < right) {
-    let temp = datos[left];
-    datos[left++] = datos[right];
-    datos[right--] = temp;
+    while (izquierda < derecha) {
+    let temp = datos[izquierda];
+    datos[izquierda++] = datos[derecha];
+    datos[derecha--] = temp;
     }
 
     // regresar el arreglo actualizado
@@ -196,6 +208,7 @@ export class InterfazComponent implements OnInit {
 
   SimplificarArreglo(){
     let arr:number[][]=[];
+    
     for(let i=0;i<this.TablaDistancias.length;i++){
       arr.push([]); 
       for(let j=1;j<this.TablaDistancias[i].length;j++){
@@ -220,19 +233,19 @@ export class InterfazComponent implements OnInit {
   }
   agregarNodo(){
     
-    if(this.Nodos.length<=10){
+    if(this.Nodos.length<=8){
       let nuevoNodo=String.fromCharCode(64+this.Nodos.length);
       this.Nodos.push(nuevoNodo);
       let arr = new Array<string>(this.Nodos.length);
-      arr.fill("0");
+      arr.fill("1");
       arr[0]=nuevoNodo;
-      arr[arr.length-1]="-";
+      arr[arr.length-1]="0";
       this.TablaDistancias.push(arr);
       try{
         for(let i=0;i<this.Nodos.length;i++){
           for(let j=0;j<this.Nodos.length;j++){
             if(this.TablaDistancias[i][j]==undefined){
-              this.TablaDistancias[i].push("0");
+              this.TablaDistancias[i].push("1");
             }
           }
         }
@@ -240,30 +253,81 @@ export class InterfazComponent implements OnInit {
       
       console.log(this.TablaDistancias);
       console.log(this.Nodos);
-    }else{this.nuevoNodoMensaje="Numero Máximo de Nodos Alcanzados (10)"}
+    }else{this.nuevoNodoMensaje="Numero Máximo de Nodos Alcanzados (8)"}
    this.GenerarDiagrama();
   }
 
   GenerarDiagrama(){
+
+    this.links[0]={
+      id: 'AB',
+      source: 'A',
+      target: 'B',
+      label: this.TablaDistancias[0][2]
+    }
+    for(let i=2;i<this.nodes.length;i++){
+      this.nodes.pop();
+    }
+    
+
     for(let i=2;i<this.Nodos.length;i++){
       this.nodes.push({
         id: this.Nodos[i],
         label: this.Nodos[i]
       })
+      console.log(this.nodes[i-1]);
       
     }
 
     //modificar esto
-    for(let i=2;i<this.Nodos.length;i++){
-      this.links.push({
-        id: this.Nodos[i]+'C',
-        source: this.Nodos[i],
-        target: 'C',
-        label: '145'
-      })
-    }
-    //console.log("DIAGRAMA")
+    let grafo: number[][]=this.SimplificarArreglo();
     
+    for(let i=0;i<grafo.length;i++){
+      for(let j=0;j<grafo[i].length;j++){
+        console.log(i,j)
+        if(i!=j && i<j){
+          if(!(i==0&&j==1)){
+            this.links.push({
+              id: this.Nodos[i+1]+this.Nodos[j+1],
+              source: this.Nodos[i+1],
+              target: this.Nodos[j+1],
+              label: grafo[i][j].toString()
+            })
+            console.log(grafo[i][j]);
+          }
+          
+        }
+        /* if(i+1!=j && (i!=0 && j!=2)){
+          this.links.push({
+            id: this.Nodos[i+1]+this.Nodos[j],
+            source: this.Nodos[i],
+            target: this.Nodos[j],
+            label: this.TablaDistancias[i][j]
+          })
+          console.log(this.links[i])
+        } */
+      }
+        
+    }
+    //console.log(this.links)
+    
+  }
+  customTrackBy(index: number, obj: any): any {
+    return index;
+}
+  ActualizarTabla(i:number,j:number){
+    try{console.log(this.TablaDistancias)
+      console.log(i,j)
+      console.log("Cambiar",j-1,i+1)
+      this.TablaDistancias[j-1][i+1]=this.TablaDistancias[i][j];
+      /*if(j<=1){
+        this.TablaDistancias[j][i]=this.TablaDistancias[i][j];
+      }*/
+      console.log(this.TablaDistancias)
+      this.GenerarDiagrama();
+    }
+      catch(e){}
+      
   }
 }
 
