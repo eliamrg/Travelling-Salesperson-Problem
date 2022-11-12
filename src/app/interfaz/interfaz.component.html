@@ -1,75 +1,44 @@
-<div class="row">
-  
-</div>
+
+
 <div class="flex-container">
   
   <div class="left-column">
     
-    <table>
-      <tr>
-        <th> </th>
-        <th>A</th>
-        <th>B</th>
-        <th>C</th>
-        <th>D</th>
-        <th>E</th>
+    <table >
+      <tr >
+        <th *ngFor="let nodo of Nodos; let indice = index">{{nodo}}</th>
       </tr>
-      <tr>
-        <td>A</td>
-        <td>-</td>
-        <td contenteditable='true'>2</td>
-        <td contenteditable='true'>3</td>
-        <td contenteditable='true'>4</td>
-        <td contenteditable='true'>5</td>
+      <tr *ngFor="let distancia of TablaDistancias; let indice1 = index">
+        <td  contenteditable='false'  *ngFor="let cantidad of distancia;let indice2 = index ;trackBy: customTrackBy">
+          <input *ngIf="indice2==0; else sino" readonly="true" [(ngModel)]="distancia[indice2]"  value="{{cantidad}}">
+          <ng-template #sino>
+            <div>
+              <input [readonly]="cantidad=='0'"  type="number" [(ngModel)]="distancia[indice2]" (input)="ActualizarTabla(indice1,indice2)" value="{{cantidad}}">
+            </div>
+          </ng-template>
+        </td>
       </tr>
-      <tr>
-        <td>B</td>
-        <td contenteditable='true'>5</td>
-        <td>-</td>
-        <td contenteditable='true'>3</td>
-        <td contenteditable='true'>2</td>
-        <td contenteditable='true'>1</td>
-      </tr>
-      <tr>
-        <td>C</td>
-        <td contenteditable='true'>6</td>
-        <td contenteditable='true'>7</td>
-        <td >-</td>
-        <td contenteditable='true'>9</td>
-        <td contenteditable='true'>0</td>
-      </tr>
-      <tr>
-        <td contenteditable='true'>D</td>
-        <td contenteditable='true'>1</td>
-        <td contenteditable='true'>1</td>
-        <td contenteditable='true'>1</td>
-        <td>-</td>
-        <td contenteditable='true'>1</td>
-      </tr>
-      <tr>
-        <td>E</td>
-        <td contenteditable='true'>1</td>
-        <td contenteditable='true'>1</td>
-        <td contenteditable='true'>1</td>
-        <td contenteditable='true'>2</td>
-        <td>-</td>
-      </tr>
+      
     </table>
+    
     
    
   </div>
   <div class="right-column">
+    
     <ngx-graph
       class="chart-container"
-      [view]="[500, 550]"
+      
       [links]="leerLinks()"
       [nodes]="leerNodos()"
+      [update$]="update$"
+      
       
       layout="dagreCluster"
     >
     <!--TEMPLATE PARA LAS FLECHAS-->
       <ng-template #defsTemplate>
-        <svg:marker id="arrow" fill="black" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="4" markerHeight="4" orient="auto">
+        <svg:marker id="arrow" fill="white" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="4" markerHeight="4" orient="auto">
           <svg:path d="M0,-5L10,0L0,5" class="arrow-head" />
         </svg:marker>
       </ng-template>
@@ -106,6 +75,23 @@
     </ngx-graph>
   </div>
 </div>
+<div>
+  <div class="flex-container">
+    <div class="left-column">
+      
+
+      <div class="container"><button class="button" (click)="agregarNodo()">{{nuevoNodoMensaje}}</button></div>
+      <div class="container"><button class="button" (click)="eliminarNodo()">Eliminar Nodo</button></div>
+      
+    </div>
+    <div class="right-column">
+      
+      <div class="container"><button (click)="Ejemplo()" class="button">Cargar Ejemplo</button></div>
+    </div>
+  </div>
+    
+    
+</div>
 <footer class="ui-footer ui-bottom-button">
   <div class="row">
   
@@ -113,8 +99,8 @@
   <div class="flex-container">
     <div class="left-column">
       
-
-      <div class="container"><button class="button">Calcular Solucion</button></div>
+      <div class="container"><button (click)="Resolver(0)" class="button">Calcular Solucion</button></div>
+      
       
     </div>
     <div class="right-column">
@@ -124,11 +110,11 @@
         </div>
         <div class="flex-container">
           <div class="left-column">
-            Solución:
+            Solución: {{nodosVisitados}}
             
           </div>
           <div class="right-column">
-            Costo:
+            Costo: {{distanciaRecorrida}}
           </div>
         </div>
       </div>
