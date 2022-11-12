@@ -1,4 +1,6 @@
-import { Component, Input, OnInit, ResolvedReflectiveFactory } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ResolvedReflectiveFactory, ViewChild } from '@angular/core';
+import { Subject } from 'rxjs';
+import { ViewContainerRef } from '@angular/core';
 
 @Component({
   selector: 'app-interfaz',
@@ -6,12 +8,26 @@ import { Component, Input, OnInit, ResolvedReflectiveFactory } from '@angular/co
   styleUrls: ['./interfaz.component.css']
 })
 export class InterfazComponent implements OnInit {
-
+  update$: Subject<any> = new Subject();
   constructor() { }
-
   ngOnInit(): void {
     this.GenerarDiagrama();
   }
+
+
+  /*ngAfterViewInit() {
+    var width = this.myIdentifier.nativeElement.offsetWidth;
+    var height = this.myIdentifier.nativeElement.offsetHeight;
+   
+    console.log('Width:' + width);
+    console.log('Height: ' + height);
+  }
+  
+  @ViewChild('myIdentifier')
+  myIdentifier: ElementRef;*/
+  
+
+  
   nodosVisitados:string="" ;
   distanciaRecorrida=0;
   nuevoNodoMensaje="Agregar Nodo";
@@ -65,23 +81,8 @@ export class InterfazComponent implements OnInit {
     let grafo:number[][];
     
     let vertice: Array<number>=[];
-    let DistanciasPrueba= [
-      ["A", "0", "2451", "713", "1018", "1631", "1374"],
-      ["B", "2451", "0", "1745", "1524", "831", "1240"],
-      ["C", "713", "1745", "0", "355", "920", "803"],
-      ["D", "1018", "1524", "355", "0", "700", "862"],
-      ["E", "1631", "831", "920", "700", "0", "663"],
-      ["F", "1374", "1240", "803", "862", "663", "0" ],
-      
-  ];
-  
-  this.Nodos=["","A","B","C","D","E","F"]
-  
-  this.TablaDistancias=DistanciasPrueba;
-    /*grafo=[ [ 0, 10, 15, 20],
-    [ 10, 0, 35, 25 ],
-    [ 15, 35, 0, 30 ],
-    [ 20, 25, 30, 45 ] ];*/
+    
+    
     grafo=this.SimplificarArreglo();
     let V =grafo.length;
     console.log(grafo)
@@ -125,7 +126,7 @@ export class InterfazComponent implements OnInit {
                 = Math.min(distanciaMinima, costoRutaActual);
             ruta++;
  
-        } while (this.findNextPermutation(vertice));
+        } while (this.encontrarSiguientePermutacion(vertice));
         
         //regresa el costo minimo;
         console.log ("Costo mínimo: "+distanciaMinima);
@@ -134,7 +135,7 @@ export class InterfazComponent implements OnInit {
         this.nodosVisitados=rutaMinima;
         
   }
-  findNextPermutation(datos: Array<number>)
+  encontrarSiguientePermutacion(datos: Array<number>)
   {
         // Si el conjunto de datos dado está vacío
         // o contiene solo un elemento
@@ -231,6 +232,37 @@ export class InterfazComponent implements OnInit {
     let datos = this.nodes;
     return datos;
   }
+
+  updateChart(){
+    this.update$.next(true);
+  }
+  eliminarNodo(){
+    if(this.Nodos.length>4){
+      this.Nodos.pop();
+      this.TablaDistancias.pop();
+
+      for(let i=0;i<=this.Nodos.length;i++){
+        this.TablaDistancias[i].pop();
+      }
+    }
+    this.GenerarDiagrama();
+  }
+  Ejemplo(){
+    let DistanciasPrueba= [
+      ["A", "0", "2451", "713", "1018", "1631", "1374"],
+      ["B", "2451", "0", "1745", "1524", "831", "1240"],
+      ["C", "713", "1745", "0", "355", "920", "803"],
+      ["D", "1018", "1524", "355", "0", "700", "862"],
+      ["E", "1631", "831", "920", "700", "0", "663"],
+      ["F", "1374", "1240", "803", "862", "663", "0" ],
+      
+  ];
+  
+  this.Nodos=["","A","B","C","D","E","F"]
+  
+  this.TablaDistancias=DistanciasPrueba;
+    this.Resolver(0);
+  }
   agregarNodo(){
     
     if(this.Nodos.length<=8){
@@ -255,19 +287,31 @@ export class InterfazComponent implements OnInit {
       console.log(this.Nodos);
     }else{this.nuevoNodoMensaje="Numero Máximo de Nodos Alcanzados (8)"}
    this.GenerarDiagrama();
+   
   }
 
   GenerarDiagrama(){
 
-    this.links[0]={
-      id: 'AB',
-      source: 'A',
-      target: 'B',
-      label: this.TablaDistancias[0][2]
-    }
-    for(let i=2;i<this.nodes.length;i++){
+    this.links=[
+      {
+        id: 'AB',
+        source: 'A',
+        target: 'B',
+        label: this.TablaDistancias[0][2]
+      }
+    ];
+    this.nodes=[
+      {
+        id: 'A',
+        label: 'A'
+      }
+    ];
+    /*for(let i=2;i<this.nodes.length;i++){
       this.nodes.pop();
     }
+    for(let i=1;i<this.links.length;i++){
+      this.links.pop();
+    }*/
     
 
     for(let i=2;i<this.Nodos.length;i++){
@@ -310,7 +354,7 @@ export class InterfazComponent implements OnInit {
         
     }
     //console.log(this.links)
-    
+    this.updateChart();
   }
   customTrackBy(index: number, obj: any): any {
     return index;
@@ -329,6 +373,7 @@ export class InterfazComponent implements OnInit {
       catch(e){}
       
   }
+  
 }
 
 

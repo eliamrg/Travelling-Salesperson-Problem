@@ -1,8 +1,5 @@
 
 
-<div class="row">
-    
-</div>
 <div class="flex-container">
   
   <div class="left-column">
@@ -31,9 +28,11 @@
     
     <ngx-graph
       class="chart-container"
-      [view]="[600, 400]"
+      
       [links]="leerLinks()"
       [nodes]="leerNodos()"
+      [update$]="update$"
+      
       
       layout="dagreCluster"
     >
@@ -77,7 +76,21 @@
   </div>
 </div>
 <div>
-    <div class="container"><button class="button" (click)="agregarNodo()">{{nuevoNodoMensaje}}</button></div>
+  <div class="flex-container">
+    <div class="left-column">
+      
+
+      <div class="container"><button class="button" (click)="agregarNodo()">{{nuevoNodoMensaje}}</button></div>
+      <div class="container"><button class="button" (click)="eliminarNodo()">Eliminar Nodo</button></div>
+      
+    </div>
+    <div class="right-column">
+      
+      <div class="container"><button (click)="Ejemplo()" class="button">Cargar Ejemplo</button></div>
+    </div>
+  </div>
+    
+    
 </div>
 <footer class="ui-footer ui-bottom-button">
   <div class="row">
@@ -86,8 +99,8 @@
   <div class="flex-container">
     <div class="left-column">
       
-
       <div class="container"><button (click)="Resolver(0)" class="button">Calcular Solucion</button></div>
+      
       
     </div>
     <div class="right-column">
